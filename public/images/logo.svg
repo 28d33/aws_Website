@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none">
+  <!-- Top bracket -->
+  <path d="M30 30H70V38H30V30Z" fill="#38BDF8"/>
+  <path d="M30 16H36V30H30V16Z" fill="#38BDF8"/>
+  <path d="M47 16H53V30H47V16Z" fill="#38BDF8"/>
+  <path d="M64 16H70V30H64V16Z" fill="#38BDF8"/>
+
+  <!-- Bottom bracket -->
+  <path d="M30 62H70V70H30V62Z" fill="#38BDF8"/>
+  <path d="M30 70H36V84H30V70Z" fill="#38BDF8"/>
+  <path d="M47 70H53V84H47V70Z" fill="#38BDF8"/>
+  <path d="M64 70H70V84H64V70Z" fill="#38BDF8"/>
+
+  <!-- Left bracket -->
+  <path d="M30 30H38V70H30V30Z" fill="#38BDF8"/>
+  <path d="M16 30H30V36H16V30Z" fill="#38BDF8"/>
+  <path d="M16 47H30V53H16V47Z" fill="#38BDF8"/>
+  <path d="M16 64H30V70H16V64Z" fill="#38BDF8"/>
+
+  <!-- Right bracket -->
+  <path d="M62 30H70V70H62V30Z" fill="#38BDF8"/>
+  <path d="M70 30H84V36H70V30Z" fill="#38BDF8"/>
+  <path d="M70 47H84V53H70V47Z" fill="#38BDF8"/>
+  <path d="M70 64H84V70H70V64Z" fill="#38BDF8"/>
+</svg>

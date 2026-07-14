@@ -1,0 +1,100 @@
+@import "tailwindcss";
+
+:root {
+  /* Light Mode values optimized for readability */
+  --background: #F8FAFC; /* Slate Mist */
+  --foreground: #0F172A; /* Deep Slate */
+  --card: #FFFFFF; /* Pure White */
+  --card-foreground: #0F172A;
+  --border: #E2E8F0; /* Light Gray */
+  --muted: #475569; /* Muted Gray */
+  --muted-foreground: #475569;
+  --overlay: rgba(248, 250, 252, 0.6);
+  
+  /* Brand logo primary blue (Deeper for Light Mode contrast/accessibility) */
+  --blue: #0284C7;
+  --blue-light: #0369A1;
+  --blue-dark: #075985;
+  
+  /* Complementary brand orange (Deeper for Light Mode contrast/accessibility) */
+  --orange: #D97706;
+  --orange-light: #B45309;
+  --orange-dark: #92400E;
+  
+  --accent: #E2E8F0;
+  --accent-foreground: #0284C7;
+  --ring: #0284C7;
+}
+
+/* Dark Mode Overrides (Triggered by .dark class on HTML) */
+.dark {
+  --background: #0B0F19; /* Abyss Black */
+  --foreground: #F1F5F9; /* Ice White */
+  --card: #131926; /* Off-Black */
+  --card-foreground: #F1F5F9;
+  --border: #1E293B; /* Dark Slate */
+  --muted: #94A3B8; /* Slate Gray */
+  --muted-foreground: #94A3B8;
+  --overlay: rgba(11, 15, 25, 0.6);
+  
+  /* Brand logo primary blue (True logo Electric Blue) */
+  --blue: #42B5FF;
+  --blue-light: #8AD1FF;
+  --blue-dark: #0084E0;
+  
+  /* Complementary brand orange (Electric Orange) */
+  --orange: #FF7E42;
+  --orange-light: #FFA67E;
+  --orange-dark: #D45014;
+  
+  --accent: #1E293B;
+  --accent-foreground: #42B5FF;
+  --ring: #42B5FF;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-border: var(--border);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-overlay: var(--overlay);
+  --color-blue: var(--blue);
+  --color-blue-light: var(--blue-light);
+  --color-blue-dark: var(--blue-dark);
+  --color-orange: var(--orange);
+  --color-orange-light: var(--orange-light);
+  --color-orange-dark: var(--orange-dark);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-ring: var(--ring);
+  --font-sans: var(--font-roboto), sans-serif;
+  --font-serif: var(--font-syne), sans-serif;
+  --font-mono: var(--font-ibm-plex-mono), monospace;
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--muted) transparent;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-roboto), sans-serif;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+@keyframes marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+.animate-marquee {
+  animation: marquee 30s linear infinite;
+}

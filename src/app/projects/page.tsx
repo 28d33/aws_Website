@@ -1,0 +1,10 @@
+import { Hero, ProjectFilters } from "@/components/projects"
+
+export default function ProjectsPage() {
+  return (
+    <div className="flex flex-1 flex-col">
+      <Hero />
+      <ProjectFilters />
+    </div>
+  )
+}

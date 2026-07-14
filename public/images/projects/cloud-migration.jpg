@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="500" viewBox="0 0 800 500">
+  <rect width="800" height="500" fill="hsl(63, 20%, 12%)"/>
+  <text x="400" y="245" text-anchor="middle" fill="hsl(63, 40%, 45%)" font-family="monospace" font-size="18" font-weight="bold">
+    projects
+  </text>
+  <text x="400" y="275" text-anchor="middle" fill="hsl(63, 20%, 35%)" font-family="monospace" font-size="13">
+    cloud-migration
+  </text>
+</svg>
