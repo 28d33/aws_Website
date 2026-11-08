@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { IBM_Plex_Sans, Syne, IBM_Plex_Mono } from "next/font/google";
+import { IBM_Plex_Sans, Syne, JetBrains_Mono } from "next/font/google";
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
 import { ScrollProgress } from "@/components/animations/scroll-progress";
@@ -22,10 +22,11 @@ const syne = Syne({
   weight: ["400", "500", "600", "700", "800"],
 });
 
-const ibmPlexMono = IBM_Plex_Mono({
-  variable: "--font-ibm-plex-mono",
+/* JetBrains Mono — cut at the end of strokes fits the pixel grid (font docs) */
+const jetMono = JetBrains_Mono({
+  variable: "--font-jet-mono",
   subsets: ["latin"],
-  weight: ["300", "400", "500", "600"],
+  weight: ["400", "500", "600"],
   style: ["normal", "italic"],
 });
 
@@ -46,7 +47,7 @@ export default function RootLayout({
     <html
       lang="en"
       data-scroll-behavior="smooth"
-      className={`${plexSans.variable} ${syne.variable} ${ibmPlexMono.variable} h-full antialiased`}
+      className={`${plexSans.variable} ${syne.variable} ${jetMono.variable} h-full antialiased`}
       suppressHydrationWarning
     >
       <head>

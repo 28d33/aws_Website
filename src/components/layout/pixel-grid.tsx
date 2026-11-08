@@ -15,12 +15,12 @@ type Palette = { bg: string; inks: string[]; pop: string }
 const DARK: Palette = {
   bg: "#0C1220",
   inks: ["#141F36", "#1D2F52", "#29487A", "#36619E"],
-  pop: "#4FA3E8",
+  pop: "#FF9900", // Smile Orange pops — same accent language as the foreground
 }
 const LIGHT: Palette = {
   bg: "#F5F8FD",
   inks: ["#E4EEF8", "#CFE1F1", "#B0CBE6", "#93B9DF"],
-  pop: "#5EA6DB",
+  pop: "#C2570C",
 }
 
 /* Field tuning */

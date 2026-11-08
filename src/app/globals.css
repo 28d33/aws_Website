@@ -15,10 +15,10 @@
   --blue-light: #0388D2;
   --blue-dark: #01598E;
 
-  /* Signal orange (live / interactive accents only) */
-  --orange: #E05A1E;
-  --orange-light: #F27A42;
-  --orange-dark: #B54412;
+  /* Signal orange — AWS Smile Orange, light mode darkened for AA small text */
+  --orange: #B45309;
+  --orange-light: #C2570C;
+  --orange-dark: #8F3E06;
 
   --accent: #E5EDF7;
   --accent-foreground: #0277BD;
@@ -28,7 +28,7 @@
 .dark {
   --background: #0C1220;
   --foreground: #EAF1FB;
-  --card: #111A2C;
+  --card: #16253A;
   --card-foreground: #EAF1FB;
   --border: #1E2B44;
   --muted: #B6C3DB;
@@ -38,11 +38,12 @@
   --blue-light: #8AD1FF;
   --blue-dark: #0084E0;
 
-  --orange: #FF7E42;
-  --orange-light: #FFA67E;
-  --orange-dark: #D45014;
+  --orange: #FF9900;
+  --orange-light: #FFB959;
+  --orange-dark: #D97D00;
 
-  --accent: #1E2B44;
+  /* Squid Ink — Amazon's canonical navy for dark surfaces */
+  --accent: #202F42;
   --accent-foreground: #42B5FF;
   --ring: #42B5FF;
 }
@@ -66,7 +67,7 @@
   --color-ring: var(--ring);
   --font-sans: var(--font-plex-sans), sans-serif;
   --font-serif: var(--font-syne), sans-serif;
-  --font-mono: var(--font-ibm-plex-mono), monospace;
+  --font-mono: var(--font-jet-mono), monospace;
 }
 
 * {
