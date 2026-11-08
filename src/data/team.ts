@@ -11,27 +11,27 @@ export interface TeamGroup {
   members: TeamMember[]
 }
 
-export const teamGroups: TeamGroup[] = [
+ const allTeamGroups: TeamGroup[] = [
   {
     name: "Faculty Coordinators",
     members: [
       {
-        name: "Dr. Arvind Sharma",
-        role: "Faculty Advisor",
+        name: "Krishna Prasad",
+        role: "Student Builder Group Leader",
         image: "/images/team/placeholder-1.jpg",
         bio: "Professor of Computer Science with 15+ years of experience in cloud computing and distributed systems. Guides the club's technical direction and industry partnerships.",
         socials: { linkedin: "https://linkedin.com/in/arvind-sharma", github: "https://github.com/arvindsharma" },
       },
       {
-        name: "Prof. Meena Iyer",
-        role: "Co-Faculty Advisor",
+        name: "Varsha Shubhashri",
+        role: "Tech Lead",
         image: "/images/team/placeholder-2.jpg",
         bio: "Associate Professor specializing in AI/ML and cloud-native architectures. Helps mentor students in research projects and certification pathways.",
         socials: { linkedin: "https://linkedin.com/in/meena-iyer" },
       },
       {
-        name: "Dr. Rahul Verma",
-        role: "Industry Mentor",
+        name: "Deekshith Anand",
+        role: "Tech Lead",
         image: "/images/team/placeholder-3.jpg",
         bio: "Solutions Architect at AWS with expertise in enterprise cloud migrations. Provides industry insights and connects students with internship opportunities.",
         socials: { linkedin: "https://linkedin.com/in/rahul-verma", github: "https://github.com/rahulverma" },
@@ -42,43 +42,50 @@ export const teamGroups: TeamGroup[] = [
     name: "Core Team",
     members: [
       {
-        name: "Priya Patel",
-        role: "President",
+        name: "Krishna Prasad",
+        role: "Student Builder Group Leader",
         image: "/images/team/placeholder-4.jpg",
         bio: "Senior year CS student with 4 AWS certifications. Led the club to organize 20+ events and grew membership by 300%. Passionate about building cloud communities.",
         socials: { linkedin: "https://linkedin.com/in/priya-patel", github: "https://github.com/priyapatel" },
       },
       {
-        name: "Arjun Nair",
-        role: "Vice President",
+        name: "Varsha Shubhashri",
+        role: "Tech Lead",
         image: "/images/team/placeholder-5.jpg",
         bio: "Full-stack developer turned cloud architect. Spearheaded the club's hackathon initiatives and built the club's website. AWS Community Builder.",
         socials: { linkedin: "https://linkedin.com/in/arjun-nair", github: "https://github.com/arjunnair", twitter: "https://twitter.com/arjun_nair" },
       },
       {
-        name: "Sneha Reddy",
-        role: "Technical Lead",
+        name: "Deekshith Anand",
+        role: "Tech Lead",
         image: "/images/team/placeholder-6.jpg",
         bio: "Cloud infrastructure enthusiast specializing in AWS CDK and serverless architectures. Leads the technical team and mentors juniors in cloud concepts.",
         socials: { linkedin: "https://linkedin.com/in/sneha-reddy", github: "https://github.com/snehareddy" },
       },
       {
-        name: "Vikram Singh",
-        role: "Operations Lead",
+        name: "Jitha Jayesh",
+        role: "Design & Content Lead",
         image: "/images/team/placeholder-7.jpg",
         bio: "Organized 15+ successful events including the annual Cloud Summit. Ensures smooth execution of all club activities and manages stakeholder communications.",
         socials: { linkedin: "https://linkedin.com/in/vikram-singh" },
       },
       {
-        name: "Ananya Gupta",
-        role: "Community Lead",
+        name: "Ananya Ramesh",
+        role: "Outreach Lead",
         image: "/images/team/placeholder-8.jpg",
         bio: "Community builder focused on growing the club's Discord and social media presence. Runs the mentorship program connecting seniors with freshers.",
         socials: { linkedin: "https://linkedin.com/in/ananya-gupta", twitter: "https://twitter.com/ananya_gupta" },
       },
       {
-        name: "Rohit Joshi",
-        role: "Treasurer",
+        name: "Gourav P D",
+        role: "Design and Content team member",
+        image: "/images/team/placeholder-9.jpg",
+        bio: "Manages club finances and sponsorships. Successfully secured sponsorships from AWS Educate and multiple tech companies for club events.",
+        socials: { linkedin: "https://linkedin.com/in/rohit-joshi", github: "https://github.com/rohitjoshi" },
+      },
+      {
+        name: "Mohammad Ayaan Khan",
+        role: "Outreach team member",
         image: "/images/team/placeholder-9.jpg",
         bio: "Manages club finances and sponsorships. Successfully secured sponsorships from AWS Educate and multiple tech companies for club events.",
         socials: { linkedin: "https://linkedin.com/in/rohit-joshi", github: "https://github.com/rohitjoshi" },
@@ -444,3 +451,7 @@ export const teamGroups: TeamGroup[] = [
     ],
   },
 ]
+
+export const teamGroups = allTeamGroups.filter(
+  (group) => group.name === "Core Team"
+)
