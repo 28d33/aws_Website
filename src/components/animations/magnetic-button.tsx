@@ -17,6 +17,7 @@ function MagneticButton({ children, className }: MagneticButtonProps) {
   const springY = useSpring(y, { stiffness: 150, damping: 15 })
 
   const handlePointerMove = (e: PointerEvent) => {
+    if (e.pointerType === "touch") return // no magnet on touch — keeps scroll clean
     const el = ref.current
     if (!el) return
     const rect = el.getBoundingClientRect()

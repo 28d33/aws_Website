@@ -22,6 +22,7 @@ function MagneticCard({ children, className, onClick }: MagneticCardProps) {
   const springRotateY = useSpring(rotateY, { stiffness: 300, damping: 20 })
 
   const handlePointerMove = (e: PointerEvent) => {
+    if (e.pointerType === "touch") return // no magnet on touch — keeps scroll clean
     const el = ref.current
     if (!el) return
     const rect = el.getBoundingClientRect()

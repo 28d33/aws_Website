@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Roboto, Syne, IBM_Plex_Mono } from "next/font/google";
+import { IBM_Plex_Sans, Syne, IBM_Plex_Mono } from "next/font/google";
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
 import { ScrollProgress } from "@/components/animations/scroll-progress";
@@ -9,10 +9,10 @@ import { PageBackground } from "@/components/layout/page-background";
 import { siteConfig } from "@/data/site";
 import "./globals.css";
 
-const roboto = Roboto({
-  variable: "--font-roboto",
+const plexSans = IBM_Plex_Sans({
+  variable: "--font-plex-sans",
   subsets: ["latin"],
-  weight: ["100", "300", "400", "500", "700", "900"],
+  weight: ["300", "400", "500", "600"],
   style: ["normal", "italic"],
 });
 
@@ -25,7 +25,7 @@ const syne = Syne({
 const ibmPlexMono = IBM_Plex_Mono({
   variable: "--font-ibm-plex-mono",
   subsets: ["latin"],
-  weight: ["100", "200", "300", "400", "500", "600", "700"],
+  weight: ["300", "400", "500", "600"],
   style: ["normal", "italic"],
 });
 
@@ -46,7 +46,7 @@ export default function RootLayout({
     <html
       lang="en"
       data-scroll-behavior="smooth"
-      className={`${roboto.variable} ${syne.variable} ${ibmPlexMono.variable} h-full antialiased`}
+      className={`${plexSans.variable} ${syne.variable} ${ibmPlexMono.variable} h-full antialiased`}
       suppressHydrationWarning
     >
       <head>

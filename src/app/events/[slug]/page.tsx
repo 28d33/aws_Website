@@ -1,6 +1,5 @@
 import { notFound } from "next/navigation"
 import { events } from "@/data/events"
-import { Breadcrumbs } from "@/components/layout/breadcrumbs"
 import { EventDetail } from "@/components/events/event-detail"
 
 export async function generateStaticParams() {
@@ -18,16 +17,8 @@ export default async function EventPage({
   if (!event) notFound()
 
   return (
-    <div className="mx-auto max-w-7xl px-4 py-12">
-      <Breadcrumbs
-        items={[
-          { label: "Events", href: "/events" },
-          { label: event.title },
-        ]}
-      />
-      <div className="mt-8">
-        <EventDetail event={event} />
-      </div>
+    <div className="mx-auto max-w-6xl px-5 pt-28 sm:px-8 sm:pt-36 pb-24">
+      <EventDetail event={event} />
     </div>
   )
 }

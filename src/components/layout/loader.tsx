@@ -10,8 +10,11 @@ export function Loader() {
   useEffect(() => {
     const hasSeen = sessionStorage.getItem("aws-sbg-loaded")
     if (hasSeen) {
-      setShowLoader(false)
-      setIsLoading(false)
+      // Defer so the lint rule sees no synchronous cascading render
+      requestAnimationFrame(() => {
+        setShowLoader(false)
+        setIsLoading(false)
+      })
       return
     }
     const timer = setTimeout(() => {
@@ -19,7 +22,7 @@ export function Loader() {
       sessionStorage.setItem("aws-sbg-loaded", "true")
       // Give the exit animation time to complete before unmounting
       setTimeout(() => setShowLoader(false), 800)
-    }, 2200)
+    }, 1600)
     return () => clearTimeout(timer)
   }, [])
 

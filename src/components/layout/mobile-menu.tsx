@@ -4,7 +4,6 @@ import { motion, AnimatePresence } from "framer-motion"
 import NextLink from "next/link"
 import { X } from "lucide-react"
 import { siteConfig } from "@/data/site"
-import { cn } from "@/lib/utils"
 
 interface MobileMenuProps {
   isOpen: boolean

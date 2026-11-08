@@ -3,184 +3,104 @@
 import { useState, useEffect, useRef } from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { Menu, ChevronDown, Sun, Moon } from "lucide-react"
-import { cn } from "@/lib/utils"
+import { Sun, Moon, Menu } from "lucide-react"
 import { siteConfig } from "@/data/site"
-import { Button } from "@/components/ui/button"
+import { cn } from "@/lib/utils"
 import { MobileMenu } from "./mobile-menu"
 
-const PRIMARY_LINKS = siteConfig.navLinks.slice(0, 6)
-const MORE_LINKS = siteConfig.navLinks.slice(6)
+const NAV_LINKS = siteConfig.navLinks.filter((l) => l.href !== "/")
 
 export function Navbar() {
   const [scrolled, setScrolled] = useState(false)
+  const [hidden, setHidden] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
-  const [isMoreOpen, setIsMoreOpen] = useState(false)
   const pathname = usePathname()
-  const moreRef = useRef<HTMLDivElement>(null)
-  const [theme, setTheme] = useState<"light" | "dark">("dark")
+  const lastY = useRef(0)
 
   useEffect(() => {
-    const isDark = document.documentElement.classList.contains("dark")
-    setTheme(isDark ? "dark" : "light")
-  }, [])
-
-  const toggleTheme = () => {
-    if (theme === "dark") {
-      document.documentElement.classList.remove("dark")
-      localStorage.setItem("theme", "light")
-      setTheme("light")
-    } else {
-      document.documentElement.classList.add("dark")
-      localStorage.setItem("theme", "dark")
-      setTheme("dark")
+    const handleScroll = () => {
+      const y = window.scrollY
+      setScrolled(y > 8)
+      setHidden(y > 320 && y > lastY.current)
+      lastY.current = y
     }
-  }
-
-  useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 30)
     window.addEventListener("scroll", handleScroll, { passive: true })
     return () => window.removeEventListener("scroll", handleScroll)
   }, [])
 
-  useEffect(() => {
-    function handleClickOutside(e: MouseEvent) {
-      if (moreRef.current && !moreRef.current.contains(e.target as Node)) {
-        setIsMoreOpen(false)
-      }
+  const toggleTheme = () => {
+    const el = document.documentElement
+    if (el.classList.contains("dark")) {
+      el.classList.remove("dark")
+      localStorage.setItem("theme", "light")
+    } else {
+      el.classList.add("dark")
+      localStorage.setItem("theme", "dark")
     }
-    document.addEventListener("mousedown", handleClickOutside)
-    return () => document.removeEventListener("mousedown", handleClickOutside)
-  }, [])
+  }
 
-  const linkBase = cn(
-    "group relative text-sm font-medium transition-colors duration-300",
-  )
-  const activeLinkColor = "text-blue"
-  const inactiveLinkColor = "text-muted hover:text-foreground"
-  const logoColor = "text-blue hover:text-blue-dark"
+  const linkedin = siteConfig.socialLinks[0]
 
   return (
     <>
       <header
         className={cn(
-          "fixed top-0 left-0 right-0 z-50 h-20 transition-all duration-500 flex items-center",
+          "fixed top-0 left-0 right-0 z-50 border-b transition duration-300",
           scrolled
-            ? "bg-background/90 backdrop-blur-xl border-b border-border/20 shadow-sm h-16"
-            : "bg-transparent",
+            ? "bg-background/85 backdrop-blur border-border -translate-y-0"
+            : "bg-transparent border-transparent",
+          hidden ? "-translate-y-full" : "translate-y-0",
         )}
       >
-        <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8 flex items-center justify-between">
-          <Link href="/" className="flex items-center gap-2.5">
-            <img src="/images/logo.png" alt="AWS SBG Logo" className="h-8 w-8 object-contain rounded-md" />
-            <span className={cn("text-xl font-serif font-bold tracking-tight transition-colors duration-300", logoColor)}>
-              AWS SBG
-            </span>
+        <div className="mx-auto flex h-16 w-full max-w-6xl items-center justify-between px-5 sm:px-8">
+          <Link href="/" className="font-serif text-lg font-bold tracking-tight text-foreground transition-colors hover:text-blue">
+            AWS SBG
           </Link>
 
-          <nav className="hidden md:flex items-center gap-8">
-            {PRIMARY_LINKS.map((link) => {
-              const isActive = pathname === link.href
-              return (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  className={cn(
-                    linkBase,
-                    isActive ? activeLinkColor : inactiveLinkColor,
-                  )}
-                >
-                  {link.label}
-                  <span
-                    className={cn(
-                      "absolute -bottom-1 left-0 h-0.5 bg-blue transition-all duration-300",
-                      isActive ? "w-full" : "w-0 group-hover:w-full",
-                    )}
-                  />
-                </Link>
-              )
-            })}
-
-            {/* More dropdown */}
-            {MORE_LINKS.length > 0 && (
-              <div ref={moreRef} className="relative">
-                <button
-                  onClick={() => setIsMoreOpen((o) => !o)}
-                  className={cn(
-                    "flex items-center gap-1 text-sm font-medium transition-colors duration-300",
-                    MORE_LINKS.some((l) => l.href === pathname)
-                      ? activeLinkColor
-                      : inactiveLinkColor,
-                  )}
-                >
-                  More
-                  <ChevronDown
-                    className={cn(
-                      "h-3.5 w-3.5 transition-transform duration-200",
-                      isMoreOpen && "rotate-180",
-                    )}
-                  />
-                </button>
-
-                {isMoreOpen && (
-                  <div className="absolute right-0 top-full mt-2 w-48 rounded-lg border border-border bg-card shadow-xl overflow-hidden z-50">
-                    {MORE_LINKS.map((link) => {
-                      const isActive = pathname === link.href
-                      return (
-                        <Link
-                          key={link.href}
-                          href={link.href}
-                          onClick={() => setIsMoreOpen(false)}
-                          className={cn(
-                            "block px-4 py-3 text-sm transition-colors hover:bg-background",
-                            isActive ? "text-blue font-semibold" : "text-muted hover:text-foreground",
-                          )}
-                        >
-                          {link.label}
-                        </Link>
-                      )
-                    })}
-                  </div>
+          <nav className="flex items-center gap-7">
+            {NAV_LINKS.map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                className={cn(
+                  "hidden text-sm transition-colors sm:block",
+                  pathname === link.href ? "text-blue" : "text-muted hover:text-foreground",
                 )}
-              </div>
-            )}
-          </nav>
+              >
+                {link.label}
+              </Link>
+            ))}
 
-          <div className="flex items-center gap-4">
-            <button
-              onClick={toggleTheme}
-              className="p-2.5 rounded-full border border-border bg-card/40 hover:bg-card text-foreground transition-all hover:border-blue/40 flex items-center justify-center cursor-pointer"
-              aria-label="Toggle theme"
-            >
-              {theme === "dark" ? (
-                <Sun className="h-4 w-4 text-orange" />
-              ) : (
-                <Moon className="h-4 w-4 text-blue" />
-              )}
-            </button>
-            <Button
-              variant="primary"
-              size="md"
-              className="hidden sm:inline-flex rounded-full px-6 shadow-sm"
-              asChild
-            >
-              <Link href="/membership">Join Us</Link>
-            </Button>
-            <button
-              onClick={() => setIsMobileMenuOpen(true)}
-              className="p-2 transition-colors md:hidden text-foreground hover:text-blue"
-              aria-label="Open menu"
-            >
-              <Menu className="h-5 w-5" />
-            </button>
-          </div>
+            <div className="flex items-center gap-3">
+              <button
+                onClick={toggleTheme}
+                className="flex h-9 w-9 items-center justify-center rounded-md border border-border text-foreground transition-colors hover:border-blue cursor-pointer"
+                aria-label="Toggle theme"
+              >
+                <Sun className="theme-icon-sun h-4 w-4 text-orange" />
+                <Moon className="theme-icon-moon h-4 w-4 text-blue" />
+              </button>
+              <a
+                href={linkedin.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hidden h-9 items-center rounded-md bg-blue px-4 text-sm font-semibold text-slate-950 transition-colors hover:bg-blue-light sm:flex"
+              >
+                Join
+              </a>
+              <button
+                onClick={() => setIsMobileMenuOpen(true)}
+                className="flex h-9 w-9 items-center justify-center rounded-md border border-border text-foreground transition-colors hover:border-blue sm:hidden"
+                aria-label="Open menu"
+              >
+                <Menu className="h-4 w-4" />
+              </button>
+            </div>
+          </nav>
         </div>
       </header>
 
-      <MobileMenu
-        isOpen={isMobileMenuOpen}
-        onClose={() => setIsMobileMenuOpen(false)}
-      />
+      <MobileMenu isOpen={isMobileMenuOpen} onClose={() => setIsMobileMenuOpen(false)} />
     </>
   )
 }

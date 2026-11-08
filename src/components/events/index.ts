@@ -1,6 +1,2 @@
-export { EventsHero } from "./hero"
-export { EventFilters } from "./event-filters"
-export { EventCard } from "./event-card"
-export { EventList } from "./event-list"
-export { EventCalendar } from "./event-calendar"
-export { EventDetail } from "./event-detail"
+import { EventLog } from "./event-log"
+import { EventDetail } from "./event-detail"

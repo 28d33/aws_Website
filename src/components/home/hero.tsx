@@ -1,68 +1,127 @@
 "use client"
 
+import { useEffect, useState } from "react"
+import Link from "next/link"
 import { motion } from "framer-motion"
-import { TextReveal } from "@/components/animations/text-reveal"
-import { ScaleReveal } from "@/components/animations/scale-reveal"
-import { FadeIn } from "@/components/animations/fade-in"
-import { MagneticButton } from "@/components/animations/magnetic-button"
-import { Button } from "@/components/ui/button"
-import { ArrowRight, ChevronDown } from "lucide-react"
+
+const COMMAND = "aws configure --profile you"
+
+const EASE = [0.16, 1, 0.3, 1] as const
 
 function Hero() {
+  const [typed, setTyped] = useState(0)
+  const [reduceMotion, setReduceMotion] = useState(false)
+
+  useEffect(() => {
+    setReduceMotion(window.matchMedia("(prefers-reduced-motion: reduce)").matches)
+  }, [])
+
+  useEffect(() => {
+    if (reduceMotion) {
+      setTyped(COMMAND.length)
+      return
+    }
+    let i = 0
+    const start = setTimeout(() => {
+      const timer = setInterval(() => {
+        i += 1
+        setTyped(i)
+        if (i >= COMMAND.length) clearInterval(timer)
+      }, 42)
+      return () => clearInterval(timer)
+    }, 1100)
+    return () => clearTimeout(start)
+  }, [reduceMotion])
+
+  const commandReady = typed >= COMMAND.length
+
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-background px-4">
-      {/* Decorative clean radial glows */}
-      <div
-        className="absolute inset-0 opacity-[0.12] pointer-events-none"
-        style={{
-          backgroundImage:
-            "radial-gradient(circle at 15% 20%, var(--blue) 0%, transparent 60%), radial-gradient(circle at 85% 80%, var(--orange) 0%, transparent 60%)",
-        }}
-      />
-
-      <div className="relative z-10 mx-auto max-w-5xl text-center py-20">
-        <FadeIn direction="up" delay={0.2}>
-          <span className="inline-flex items-center rounded-full border border-blue/20 bg-blue/5 px-4 py-1.5 text-xs font-mono font-medium uppercase tracking-wider text-blue mb-8">
-            Student Builder Community
-          </span>
-        </FadeIn>
-
-        <motion.h1
-          className="font-serif text-5xl sm:text-7xl md:text-8xl tracking-tight text-foreground font-light leading-[1.05] mb-8"
-          initial={{ opacity: 0, y: 40 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
-        >
-          <span className="italic text-blue font-normal">AWS Student</span>
-          <br />
-          <span className="text-orange font-medium animate-pulse">Builder Group</span>
-        </motion.h1>
-
-        <TextReveal
-          text="Empowering the Next Generation of Cloud Innovators"
-          as="div"
-          delay={0.4}
-          className="text-lg leading-relaxed text-muted max-w-2xl mx-auto font-light sm:text-xl md:text-2xl"
-        />
-
-        <div className="mt-12 flex flex-col sm:flex-row items-center justify-center gap-5">
-          <ScaleReveal delay={0.5}>
-            <MagneticButton>
-              <Button variant="primary" size="lg" className="rounded-full gap-2 px-8 shadow-sm">
-                Join Us <ArrowRight className="h-4 w-4" />
-              </Button>
-            </MagneticButton>
-          </ScaleReveal>
-          <ScaleReveal delay={0.6}>
-            <Button variant="outline" size="lg" className="rounded-full gap-2 px-8 border-blue/30 text-blue hover:bg-blue/5">
-              Explore Events
-            </Button>
-          </ScaleReveal>
+    <section className="relative">
+      <div className="mx-auto max-w-6xl px-5 pt-36 sm:px-8 sm:pt-44 pb-20 sm:pb-28">
+        {/* The one orchestrated moment: the builder's line typing out on load */}
+        <div className="h-8 font-mono text-sm text-muted" aria-hidden={typed < COMMAND.length}>
+          <span className="text-foreground">$&nbsp;</span>
+          <span>{COMMAND.slice(0, typed)}</span>
+          <span
+            className="ml-0.5 inline-block h-4 w-2 translate-y-0.5 bg-orange"
+            style={{ animation: commandReady ? "blink 1.1s step-end infinite" : undefined }}
+          />
         </div>
-      </div>
 
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce cursor-pointer opacity-70">
-        <ChevronDown className="h-6 w-6 text-muted" />
+        {/* Headline — left aligned, flat color, one line per idea */}
+        <h1 className="mt-10 font-serif text-[clamp(2.9rem,10vw,7.25rem)] font-light leading-[1.02] tracking-tight text-foreground">
+          <motion.span
+            className="block"
+            initial={{ opacity: 0, y: 36 }}
+            animate={commandReady ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.7, ease: EASE }}
+          >
+            Learn cloud.
+          </motion.span>
+          <motion.span
+            className="block pl-[8%]"
+            initial={{ opacity: 0, y: 36 }}
+            animate={commandReady ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.7, delay: 0.12, ease: EASE }}
+          >
+            Build on AWS.
+          </motion.span>
+          <motion.span
+            className="block text-muted"
+            initial={{ opacity: 0, y: 36 }}
+            animate={commandReady ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.7, delay: 0.24, ease: EASE }}
+          >
+            Together.
+          </motion.span>
+        </h1>
+
+        <div className="mt-12 flex flex-col gap-8 sm:flex-row sm:items-end sm:justify-between">
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={commandReady ? { opacity: 1 } : {}}
+            transition={{ duration: 0.6, delay: 0.35 }}
+            className="max-w-md"
+          >
+            <p className="text-base leading-relaxed text-muted">
+              The AWS student group at MARVEL, UVCE. No gates, no fees — a community that builds.
+            </p>
+            <div className="mt-6 flex flex-wrap items-center gap-x-3 gap-y-3">
+              <Link
+                href="/events"
+                className="rounded-md bg-blue px-5 h-11 flex items-center text-sm font-semibold text-slate-950 transition-colors hover:bg-blue-light focus-visible:outline focus-visible:outline-2 focus-visible:outline-blue"
+              >
+                View events
+              </Link>
+              <Link
+                href="/team"
+                className="rounded-md border border-border px-5 h-11 flex items-center text-sm text-muted transition-colors hover:border-blue hover:text-blue focus-visible:outline focus-visible:outline-2 focus-visible:outline-blue"
+              >
+                Meet the team
+              </Link>
+            </div>
+          </motion.div>
+
+          {/* Real data row — hairline separated, not a stat banner */}
+          <motion.dl
+            initial={{ opacity: 0 }}
+            animate={commandReady ? { opacity: 1 } : {}}
+            transition={{ duration: 0.6, delay: 0.45 }}
+            className="flex gap-8 border-l-2 border-orange pl-6 sm:gap-10 sm:border-l sm:pl-8"
+          >
+            {[
+              ["400+", "builders"],
+              ["5", "events run"],
+              ["7", "leads"],
+            ].map(([value, label]) => (
+              <div key={label}>
+                <dt className="sr-only">{label}</dt>
+                <dd className="font-mono text-2xl font-medium text-foreground sm:text-3xl">{value}</dd>
+                <dd className="mt-1 text-xs text-muted">{label}</dd>
+              </div>
+            ))}
+          </motion.dl>
+        </div>
       </div>
     </section>
   )

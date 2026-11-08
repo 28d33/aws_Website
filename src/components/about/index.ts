@@ -1,8 +1,0 @@
-export { Hero } from "./hero"
-export { Introduction } from "./introduction"
-export { MissionVision } from "./mission-vision"
-export { Objectives } from "./objectives"
-export { History } from "./history"
-export { Faculty } from "./faculty"
-export { Values } from "./values"
-export { Guidelines } from "./guidelines"

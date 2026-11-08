@@ -1,35 +1,7 @@
-"use client"
-
-import { Calendar, Clock, MapPin, ArrowLeft } from "lucide-react"
 import Link from "next/link"
-import { Badge } from "@/components/ui/badge"
-import { Button } from "@/components/ui/button"
-import { FadeIn } from "@/components/animations/fade-in"
-import { TextReveal } from "@/components/animations/text-reveal"
-import { ImageReveal } from "@/components/animations/image-reveal"
-import { ClipReveal } from "@/components/animations/clip-reveal"
-import { ScaleReveal } from "@/components/animations/scale-reveal"
-import type { Event, EventType } from "@/data/events"
-
-const eventTypeLabels: Record<EventType, string> = {
-  workshop: "Workshop",
-  bootcamp: "Bootcamp",
-  hackathon: "Hackathon",
-  webinar: "Webinar",
-  meetup: "Meetup",
-  speaker_session: "Speaker Session",
-  ctf: "CTF Challenge",
-  gameday: "Gameday",
-}
-
-function formatDate(dateStr: string) {
-  return new Date(dateStr).toLocaleDateString("en-US", {
-    weekday: "long",
-    month: "long",
-    day: "numeric",
-    year: "numeric",
-  })
-}
+import { ArrowLeft, Clock, MapPin } from "lucide-react"
+import { eventTypeLabels, formatShortDate } from "@/lib/format"
+import type { Event } from "@/data/events"
 
 interface EventDetailProps {
   event: Event
@@ -37,91 +9,71 @@ interface EventDetailProps {
 
 function EventDetail({ event }: EventDetailProps) {
   return (
-    <div className="mx-auto max-w-4xl">
-      <FadeIn direction="up">
+    <div className="grid gap-10 lg:grid-cols-[1.5fr_1fr] lg:items-start">
+      <div>
         <Link
           href="/events"
-          className="mb-6 inline-flex items-center gap-1 text-sm text-muted transition-colors hover:text-blue"
+          className="group inline-flex items-center gap-2 text-sm text-muted transition-colors hover:text-blue"
         >
-          <ArrowLeft className="h-4 w-4" />
-          Back to Events
+          <ArrowLeft className="h-4 w-4 transition-transform group-hover:-translate-x-0.5" />
+          All events
         </Link>
-      </FadeIn>
 
-      <ImageReveal
-        src={event.image}
-        alt={event.title}
-        className="mb-8 rounded-2xl bg-gradient-to-br from-blue to-blue-dark"
-      />
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src={event.image}
+          alt={event.title}
+          className="mt-8 aspect-[16/9] w-full rounded-lg border border-border object-cover"
+        />
 
-      <FadeIn direction="up" delay={0.1}>
-        <div className="flex flex-wrap items-center gap-3">
-          <Badge variant="default" className="text-sm">
-            {eventTypeLabels[event.type]}
-          </Badge>
-          {event.isUpcoming ? (
-            <Badge variant="success">Upcoming</Badge>
-          ) : (
-            <Badge variant="secondary">Past Event</Badge>
-          )}
+        <p className="mt-8 flex items-baseline gap-5 font-mono text-xs">
+          <span className="text-muted">{formatShortDate(event.date)}</span>
+          <span className="text-orange">{eventTypeLabels[event.type]}</span>
+        </p>
+
+        <h1 className="mt-3 font-serif text-4xl sm:text-5xl font-light tracking-tight text-foreground text-balance">
+          {event.title}
+        </h1>
+
+        <p className="mt-6 max-w-xl text-base leading-relaxed text-muted">{event.longDescription}</p>
+      </div>
+
+      <aside className="rounded-lg border border-border bg-card p-7 lg:sticky lg:top-24">
+        <dl className="space-y-5 text-sm">
+          <div>
+            <dt className="text-xs text-muted">Date</dt>
+            <dd className="mt-1 font-medium text-foreground">{formatShortDate(event.date)}</dd>
+          </div>
+          <div>
+            <dt className="text-xs text-muted">Time</dt>
+            <dd className="mt-1 flex items-center gap-2 font-medium text-foreground">
+              <Clock className="h-3.5 w-3.5 text-blue" />
+              {event.time}
+            </dd>
+          </div>
+          <div>
+            <dt className="text-xs text-muted">Venue</dt>
+            <dd className="mt-1 flex items-center gap-2 font-medium text-foreground">
+              <MapPin className="h-3.5 w-3.5 text-blue" />
+              {event.location}
+            </dd>
+          </div>
+        </dl>
+
+        <div className="mt-8 border-t border-border pt-6">
+          <p className="text-xs leading-relaxed text-muted">
+            Recordings and announcements go out on the group&apos;s LinkedIn page.
+          </p>
+          <a
+            href="https://linkedin.com/company/aws-sbg"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mt-4 inline-flex items-center gap-2 text-sm font-medium text-blue transition-colors hover:text-blue-light"
+          >
+            Follow the group
+          </a>
         </div>
-      </FadeIn>
-
-      <TextReveal
-        text={event.title}
-        as="h1"
-        className="mt-4 text-3xl font-bold tracking-tight text-foreground sm:text-4xl"
-      />
-
-      <FadeIn direction="up" delay={0.2}>
-        <div className="mt-6 flex flex-wrap gap-4 text-sm text-muted">
-          <div className="flex items-center gap-2">
-            <Calendar className="h-4 w-4 text-blue" />
-            <span>{formatDate(event.date)}</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <Clock className="h-4 w-4 text-blue" />
-            <span>{event.time}</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <MapPin className="h-4 w-4 text-blue" />
-            <span>{event.location}</span>
-          </div>
-        </div>
-      </FadeIn>
-
-      <ClipReveal>
-        <div className="mt-8">
-          <p className="text-lg leading-relaxed text-foreground">{event.longDescription}</p>
-        </div>
-      </ClipReveal>
-
-      {event.registrationLink && (
-        <FadeIn direction="up" delay={0.3}>
-          <div className="mt-8">
-            <Button variant="primary" size="lg" asChild>
-              <a href={event.registrationLink} target="_blank" rel="noopener noreferrer">
-                Register for this Event
-              </a>
-            </Button>
-          </div>
-        </FadeIn>
-      )}
-
-      {event.gallery && event.gallery.length > 0 && (
-        <div className="mt-12">
-          <h2 className="text-2xl font-bold tracking-tight text-foreground">Gallery</h2>
-          <div className="mt-4 grid grid-cols-2 gap-4 sm:grid-cols-3">
-            {event.gallery.map((img, i) => (
-              <ScaleReveal key={i} delay={i * 0.1}>
-                <div className="flex aspect-video items-center justify-center rounded-xl bg-gradient-to-br from-card to-border">
-                  <span className="text-xs text-muted">Photo {i + 1}</span>
-                </div>
-              </ScaleReveal>
-            ))}
-          </div>
-        </div>
-      )}
+      </aside>
     </div>
   )
 }

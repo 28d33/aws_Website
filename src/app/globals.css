@@ -1,53 +1,48 @@
 @import "tailwindcss";
 
 :root {
-  /* Light Mode values optimized for readability */
-  --background: #F8FAFC; /* Slate Mist */
-  --foreground: #0F172A; /* Deep Slate */
-  --card: #FFFFFF; /* Pure White */
-  --card-foreground: #0F172A;
-  --border: #E2E8F0; /* Light Gray */
-  --muted: #475569; /* Muted Gray */
-  --muted-foreground: #475569;
-  --overlay: rgba(248, 250, 252, 0.6);
-  
-  /* Brand logo primary blue (Deeper for Light Mode contrast/accessibility) */
-  --blue: #0284C7;
-  --blue-light: #0369A1;
-  --blue-dark: #075985;
-  
-  /* Complementary brand orange (Deeper for Light Mode contrast/accessibility) */
-  --orange: #D97706;
-  --orange-light: #B45309;
-  --orange-dark: #92400E;
-  
-  --accent: #E2E8F0;
-  --accent-foreground: #0284C7;
-  --ring: #0284C7;
+  /* Light mode — paper */
+  --background: #F5F8FD;
+  --foreground: #0C1220;
+  --card: #FFFFFF;
+  --card-foreground: #0C1220;
+  --border: #D9E2EF;
+  --muted: #4A5E7A;
+  --muted-foreground: #4A5E7A;
+
+  /* AWS logo brand blue */
+  --blue: #0277BD;
+  --blue-light: #0388D2;
+  --blue-dark: #01598E;
+
+  /* Signal orange (live / interactive accents only) */
+  --orange: #E05A1E;
+  --orange-light: #F27A42;
+  --orange-dark: #B54412;
+
+  --accent: #E5EDF7;
+  --accent-foreground: #0277BD;
+  --ring: #0277BD;
 }
 
-/* Dark Mode Overrides (Triggered by .dark class on HTML) */
 .dark {
-  --background: #0B0F19; /* Abyss Black */
-  --foreground: #F1F5F9; /* Ice White */
-  --card: #131926; /* Off-Black */
-  --card-foreground: #F1F5F9;
-  --border: #1E293B; /* Dark Slate */
-  --muted: #94A3B8; /* Slate Gray */
-  --muted-foreground: #94A3B8;
-  --overlay: rgba(11, 15, 25, 0.6);
-  
-  /* Brand logo primary blue (True logo Electric Blue) */
+  --background: #0C1220;
+  --foreground: #EAF1FB;
+  --card: #111A2C;
+  --card-foreground: #EAF1FB;
+  --border: #1E2B44;
+  --muted: #B6C3DB;
+  --muted-foreground: #B6C3DB;
+
   --blue: #42B5FF;
   --blue-light: #8AD1FF;
   --blue-dark: #0084E0;
-  
-  /* Complementary brand orange (Electric Orange) */
+
   --orange: #FF7E42;
   --orange-light: #FFA67E;
   --orange-dark: #D45014;
-  
-  --accent: #1E293B;
+
+  --accent: #1E2B44;
   --accent-foreground: #42B5FF;
   --ring: #42B5FF;
 }
@@ -60,7 +55,6 @@
   --color-border: var(--border);
   --color-muted: var(--muted);
   --color-muted-foreground: var(--muted-foreground);
-  --color-overlay: var(--overlay);
   --color-blue: var(--blue);
   --color-blue-light: var(--blue-light);
   --color-blue-dark: var(--blue-dark);
@@ -70,7 +64,7 @@
   --color-accent: var(--accent);
   --color-accent-foreground: var(--accent-foreground);
   --color-ring: var(--ring);
-  --font-sans: var(--font-roboto), sans-serif;
+  --font-sans: var(--font-plex-sans), sans-serif;
   --font-serif: var(--font-syne), sans-serif;
   --font-mono: var(--font-ibm-plex-mono), monospace;
 }
@@ -87,14 +81,43 @@ html {
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: var(--font-roboto), sans-serif;
-  transition: background-color 0.3s ease, color 0.3s ease;
+  font-family: var(--font-plex-sans), sans-serif;
+  overflow-x: clip;
 }
 
-@keyframes marquee {
-  0% { transform: translateX(0); }
-  100% { transform: translateX(-50%); }
+::selection {
+  background: var(--blue);
+  color: #0C1220;
 }
-.animate-marquee {
-  animation: marquee 30s linear infinite;
+
+/* Film-grain texture (page background only) */
+.noise::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E");
+}
+
+/* Theme toggle icons (class strategy — theme is a .dark class) */
+.theme-icon-moon { display: inline-flex; }
+.theme-icon-sun { display: none; }
+.dark .theme-icon-moon { display: none; }
+.dark .theme-icon-sun { display: inline-flex; }
+
+/* --- Living background: pixel-grid field --- */
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  html { scroll-behavior: auto; }
+}
+
+/* Console caret blink (hero) */
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
 }

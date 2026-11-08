@@ -1,118 +1,62 @@
+import { teamGroups, type TeamMember } from "@/data/team"
+import { LinkedInIcon } from "@/components/icons/linkedin"
 
-"use client"
-
-import { FadeIn } from "@/components/animations/fade-in"
-import { StaggerContainer, StaggerItem } from "@/components/animations/stagger-container"
-import { MagneticCard } from "@/components/animations/magnetic-card"
-import { ImageReveal } from "@/components/animations/image-reveal"
-import { Card, CardContent } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
-import { Link, Code, MessageCircle, ArrowUpRight } from "lucide-react"
-import { teamGroups } from "@/data/team"
-
-const socialIcons: Record<string, React.ReactNode> = {
-  linkedin: <Link className="h-4 w-4" />,
-  github: <Code className="h-4 w-4" />,
-  twitter: <MessageCircle className="h-4 w-4" />,
-}
-
-function TeamGrid() {
-  const coreTeam = teamGroups[0]
-
-  if (!coreTeam) return null
-
+function RosterCard({ member, i }: { member: TeamMember; i: number }) {
   return (
-    <section className="py-20 md:py-28">
-      <div className="mx-auto max-w-7xl px-4">
-
-        <FadeIn direction="up" delay={0.1}>
-          <div className="text-center">
-            <h2 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
-              Meet Our Core Team
-            </h2>
-            <p className="mt-4 text-base text-muted max-w-2xl mx-auto">
-              The people behind AWS Student Builder Group.
-            </p>
-          </div>
-        </FadeIn>
-
-        <div className="mt-12">
-          <StaggerContainer className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-            {coreTeam.members.map((member) => (
-              <StaggerItem key={member.name}>
-                <MagneticCard>
-                  <Card className="group h-full transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">
-                    <CardContent className="flex flex-col items-center p-6 text-center">
-
-                      <ImageReveal
-                        src={member.image}
-                        alt={member.name}
-                        className="w-24 h-24 rounded-full border-2 border-border transition-colors duration-200 group-hover:border-blue"
-                      />
-
-                      <h3 className="mt-4 text-lg font-semibold text-foreground">
-                        {member.name}
-                      </h3>
-
-                      <Badge variant="secondary" className="mt-2">
-                        {member.role}
-                      </Badge>
-
-                      <p className="mt-3 text-sm leading-6 text-muted line-clamp-3">
-                        {member.bio}
-                      </p>
-
-                      {member.socials && (
-                        <div className="mt-4 flex items-center gap-3">
-
-                          {member.socials.linkedin && (
-                            <a href={member.socials.linkedin} target="_blank" rel="noopener noreferrer"
-                              className="text-muted hover:text-blue"
-                              aria-label={`${member.name} LinkedIn`}>
-                              {socialIcons.linkedin}
-                            </a>
-                          )}
-
-                          {member.socials.github && (
-                            <a href={member.socials.github} target="_blank" rel="noopener noreferrer"
-                              className="text-muted hover:text-blue"
-                              aria-label={`${member.name} GitHub`}>
-                              {socialIcons.github}
-                            </a>
-                          )}
-
-                          {member.socials.twitter && (
-                            <a href={member.socials.twitter} target="_blank" rel="noopener noreferrer"
-                              className="text-muted hover:text-blue"
-                              aria-label={`${member.name} Twitter`}>
-                              {socialIcons.twitter}
-                            </a>
-                          )}
-
-                          <a
-                            href={member.socials.linkedin ?? member.socials.github ?? "#"}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="text-muted hover:text-blue"
-                            aria-label={`${member.name} profile`}
-                          >
-                            <ArrowUpRight className="h-4 w-4" />
-                          </a>
-
-                        </div>
-                      )}
-
-                    </CardContent>
-                  </Card>
-                </MagneticCard>
-              </StaggerItem>
-            ))}
-          </StaggerContainer>
-        </div>
-
+    <li className="group">
+      <div className="aspect-[4/5] overflow-hidden rounded-lg border border-border bg-gradient-to-br from-border/40 to-transparent">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src={member.image}
+          alt={member.name}
+          loading="lazy"
+          className="h-full w-full object-cover grayscale transition duration-300 group-hover:grayscale-0"
+        />
       </div>
-    </section>
+
+      <div className="mt-3 flex items-start justify-between gap-3">
+        <div className="min-w-0">
+          <h3 className="font-serif text-lg font-medium text-foreground truncate">{member.name}</h3>
+          <p className="mt-0.5 text-xs text-muted">{member.role}</p>
+        </div>
+        {member.socials?.linkedin && (
+          <a
+            href={member.socials.linkedin}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mt-0.5 shrink-0 text-muted transition-colors hover:text-blue"
+            aria-label={`${member.name} on LinkedIn`}
+          >
+            <LinkedInIcon className="h-4 w-4" />
+          </a>
+        )}
+      </div>
+      <p className="mt-2 text-sm leading-6 text-muted line-clamp-2">{member.bio}</p>
+      <p className="sr-only">{`Member ${i + 1} of 7`}</p>
+    </li>
   )
 }
 
-export { TeamGrid }
+export function TeamGrid() {
+  const coreTeam = teamGroups[0]
+  if (!coreTeam) return null
+
+  return (
+    <div className="mx-auto max-w-6xl px-5 sm:px-8 pb-28">
+      <header className="pt-28 sm:pt-36">
+        <h1 className="font-serif text-5xl sm:text-6xl font-light tracking-tight text-foreground">
+          The team.
+        </h1>
+        <p className="mt-4 max-w-md text-base text-muted">
+          Seven students run the group. Four hundred more show up for it.
+        </p>
+      </header>
+
+      <ul className="mt-14 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+        {coreTeam.members.map((member, i) => (
+          <RosterCard key={member.name} member={member} i={i} />
+        ))}
+      </ul>
+    </div>
+  )
+}
